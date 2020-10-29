@@ -1,37 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{% if active_games_list %}
-    <ul>
-    {% for game in active_games_list %}
-        <li><a href="/games/{{ game.id }}/">{{ game.shortcode }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No games are available.</p>
-{% endif %}
+{% extends 'base.html' %}
+{% load static %}
 
+{% block content %}
+
+  {% if active_games_list %}
+      <ul>
+      {% for game in active_games_list %}
+          <li><a href="/games/{{ game.id }}/">{{ game.shortcode }}</a></li>
+      {% endfor %}
+      </ul>
+  {% else %}
+      <p>No games are available.</p>
+  {% endif %}
+
+  <h2>New game</h2>
   <form method="post">
     {% csrf_token %}
-
-    {% for field in form %}
-      <td>
-        <div>
-            {{ field.errors }}
-            <p>{{ field.label_tag }}</p>
-            {{ field }}
-            {% if field.help_text %}
-              <p class="help">{{ field.help_text|safe }}</p>
-            {% endif %}
-        </div>
-      </td>
-    {% endfor %}
-
+    <input type="text" name="shortcode" value="{{ shortcode }}" />
     <input type="submit" value="Create Game!" />
   </form>
-</body>
-</html>
+
+{% endblock %}
