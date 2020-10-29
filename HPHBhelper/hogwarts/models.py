@@ -4,7 +4,7 @@ from django import forms
 
 class Games(models.Model):
     shortcode = models.CharField(max_length=4)
-    isActive = models.BooleanField(default=False)
+    isActive = models.BooleanField(default=True)
 
     class TurnOrder(models.Model):
         # The turn order is set after a game is created but before it starts
@@ -12,6 +12,7 @@ class Games(models.Model):
 
     def __str__(self):
         return self.shortcode
+
 
 class Players(models.Model):
     name = models.CharField(max_length=20)
