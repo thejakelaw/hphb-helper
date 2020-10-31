@@ -22,11 +22,15 @@ class Players(models.Model):
         ("1", "Harry Potter"),
         ("2", "Ron Weasley"),
         ("3", "Heromione Granger"),
-        ("4", "Ginny Weasley"),
-        ("5", "Luna Lovegood")
+        ("4", "Neville Longbottom"),
+        ("5", "Luna Lovegood"),
+        ("6","Ginny Weasley" )
     )
 
     player_character = forms.ChoiceField(choices=heroes)
     health = models.IntegerField(default=10)
     coins = models.IntegerField(default=0)
     damage_tokens = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name

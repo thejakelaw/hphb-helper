@@ -7,7 +7,7 @@
   <h2>Active games</h2>
 <ul>
       {% for game in active_games %}
-          <li><a href="/games/{{ game.shortcode }}/">{{ game.shortcode }}</a></li>
+          <li><a href="/hogwarts/games/{{ game.shortcode }}/">{{ game.shortcode }}</a></li>
       {% endfor %}
       </ul>
   {% else %}
