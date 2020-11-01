@@ -1,3 +1,4 @@
 settings.ini
 **sqlite**
 venv
+db.sqlite3

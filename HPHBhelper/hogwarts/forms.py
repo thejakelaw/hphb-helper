@@ -1,8 +1,8 @@
 from django.forms import ModelForm
 
-from .models import Games
+from .models import Players
 
-class GameForm(ModelForm):
+class PlayerForm(ModelForm):
     class Meta:
-        model = Games
-        fields = ['shortcode']
+        model = Players
+        fields = ['name', 'wizard']
