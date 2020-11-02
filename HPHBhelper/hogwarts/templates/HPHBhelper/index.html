@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+  {% if active_games %}
+  <h2>Active games</h2>
+<ul>
+      {% for game in active_games %}
+          <li><a href="/hogwarts/games/{{ game.shortcode }}/">{{ game.shortcode }}</a></li>
+      {% endfor %}
+      </ul>
+  {% else %}
+      <p>No games are available.</p>
+  {% endif %}
+
+  <h2>New game</h2>
+  <form method="post">
+    {% csrf_token %}
+    <input type="text" name="shortcode" value="{{ shortcode }}" />
+    <input type="submit" value="Create Game!" />
+  </form>
+
+{% endblock %}

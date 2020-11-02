@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% if active_players %}
+<h2>WIZARDS</h2>
+<ul>
+    {% for player in active_players %}
+    <li>
+        <a href="/hogwarts/{{ player.id }}/">{{ player.name }}</a>
+        Health: <b>{{ player.health }}</b> |
+        Coins: <b>{{ player.coins }}</b> |
+        Zaps: <b>{{ player.damage_tokens }}</b>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No players found.</p>
+{% endif %}
+
+{% if active_players|length < 4 %}
+<a href="/hogwarts/games/{{ shortcode }}/add/">Add Player</a>
+{% endif %}
+
+<a href="/hogwarts/new">Back</a>
+
+
+{% endblock %}
