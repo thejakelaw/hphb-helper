@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
 
 {% block content %}
 
   <h1>{% if player %}Edit{% else %}Add{% endif %} Player</h1>
-  <form method="post">
+  <form method="post" class="form">
     {% csrf_token %}
+    {% bootstrap_form form %}
 
     {% for field in form %}
       <td>
@@ -19,7 +21,10 @@
       </td>
     {% endfor %}
 
-    <input type="submit" value="{% if player %}Edit{% else %}New{% endif %}" />
+    {% buttons %}
+      <button type="submit" class="btn btn-primary">{% if player %}Edit{% else %}New{% endif %}</button>
+    {% endbuttons %}
+
     <a href="/hogwarts/games/{{ shortcode }}/">Back</a>
   </form>
 
