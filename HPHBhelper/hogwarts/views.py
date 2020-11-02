@@ -18,9 +18,11 @@ def lobby(request):
 def create_player(request, shortcode):
     form = PlayerForm(request.POST or None)
     if form.is_valid():
-        form.save()
+        player =form.save(commit=False)
+        player.game = Games.objects.get(shortcode=shortcode)
+        player.save()
         messages.success(request, 'Added Player')
-        return redirect('active-game')
+        return redirect('active-game', shortcode=shortcode)
     return render(request, 'HPHBhelper/form.html', {'form': form, 'shortcode': shortcode})
 
 
