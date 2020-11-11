@@ -1,4 +1,10 @@
 {% load static %}
+{# Load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,13 +13,8 @@
 </head>
 <body>
 
-<div id="messages">
-  {% for message in messages %}
-    <p style="color: {% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% endif %}">
-      {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
-    </p>
-  {% endfor %}
-</div>
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
 
 {% block content %}{% endblock %}
 </body>
