@@ -5,16 +5,36 @@
 
 {% if active_players %}
 <h2>WIZARDS</h2>
-<ul>
+<table>
+    <tr>
     {% for player in active_players %}
-    <li>
-        <a href="/hogwarts/{{ player.id }}/">{{ player.name }}</a>
-        Health: <b>{{ player.health }}</b> |
-        Coins: <b>{{ player.coins }}</b> |
-        Zaps: <b>{{ player.damage_tokens }}</b>
-    </li>
+    <td>
+    <table>
+    <tr>
+        <td></td>
+        <td><a href="/hogwarts/{{ player.id }}/">{{ player.name }}</a></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>-</td>
+        <td>Health: <b>{{ player.health }}</b></td>
+        <td>+</td>
+    </tr>
+    <tr>
+        <td>-</td>
+        <td>Coins: <b>{{ player.coins }}</b></td>
+        <td>+</td>
+    </tr>
+    <tr>
+        <td>-</td>
+        <td>Zaps: <b>{{ player.damage_tokens }}</b></td>
+        <td>+</td>
+    </tr>
+    </table>
+    </td>
     {% endfor %}
-</ul>
+    </tr>
+</table>
 {% else %}
 <p>No players found.</p>
 {% endif %}
