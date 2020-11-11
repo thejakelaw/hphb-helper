@@ -8,6 +8,8 @@ from django.http import HttpResponse
 from .forms import PlayerForm
 from .models import Games, Players
 
+MAX_HEALTH = 10
+
 
 def lobby(request):
     # Create Game
@@ -18,7 +20,7 @@ def lobby(request):
 def create_player(request, shortcode):
     form = PlayerForm(request.POST or None)
     if form.is_valid():
-        player =form.save(commit=False)
+        player = form.save(commit=False)
         player.game = Games.objects.get(shortcode=shortcode)
         player.save()
         messages.success(request, 'Added Player')
@@ -29,9 +31,20 @@ def create_player(request, shortcode):
 def active_game(request, shortcode):
     game = Games.objects.get(shortcode=shortcode)
     active_players = Players.objects.filter(game=game)
-    if active_players:
-        return render(request, 'HPHBhelper/game.html', {'shortcode': shortcode, 'active_players': active_players})
-    return render(request, 'HPHBhelper/game.html', {'shortcode': shortcode})
+
+    post = request.POST
+    if 'player_id' in post:
+        # form submitted
+        player_to_modify = Players.objects.get(pk=post['player_id'])
+        player_to_modify.health += int(post.get('health', 0))
+        player_to_modify.coins += int(post.get('coins', 0))
+        player_to_modify.damage_tokens += int(post.get('damage_tokens', 0))
+        player_to_modify.save()
+
+    return render(request, 'HPHBhelper/game.html',
+                  {'shortcode': shortcode,
+                   'active_players': active_players,
+                   'max_health': MAX_HEALTH})
 
 
 def create_game(request):
