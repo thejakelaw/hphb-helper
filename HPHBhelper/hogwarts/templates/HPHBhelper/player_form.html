@@ -3,10 +3,22 @@
 
 {% block content %}
 
-  <h1>{% if player %}Edit{% else %}Add{% endif %} Player</h1>
   <form method="post" class="form">
     {% csrf_token %}
     {% bootstrap_form form %}
+
+    {% for field in form %}
+      <td>
+        <div>
+            {{ field.errors }}
+            <p>{{ field.label_tag }}</p>
+            {{ field }}
+            {% if field.help_text %}
+              <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %}
+        </div>
+      </td>
+    {% endfor %}
 
     {% buttons %}
       <button type="submit" class="btn btn-primary">{% if player %}Edit{% else %}New{% endif %}</button>
