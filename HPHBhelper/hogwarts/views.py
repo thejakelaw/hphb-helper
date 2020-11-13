@@ -40,16 +40,14 @@ def active_game(request, shortcode):
             player_to_modify.health = 10
             player_to_modify.coins = 0
             player_to_modify.damage_tokens = 0
-            player_to_modify.save()
         elif 'end_turn' in post:
             player_to_modify.coins = 0
             player_to_modify.damage_tokens = 0
-            player_to_modify.save()
         else:
             player_to_modify.health += int(post.get('health', 0))
             player_to_modify.coins += int(post.get('coins', 0))
             player_to_modify.damage_tokens += int(post.get('damage_tokens', 0))
-            player_to_modify.save()
+        player_to_modify.save()
 
     return render(request, 'HPHBhelper/game.html',
                   {'shortcode': shortcode,
