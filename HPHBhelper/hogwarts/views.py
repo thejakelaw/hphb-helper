@@ -1,4 +1,5 @@
 import random
+from collections import Counter
 from string import ascii_uppercase, digits
 
 from django.contrib import messages
@@ -18,7 +19,7 @@ def lobby(request):
 
 
 def create_player(request, shortcode):
-    form = PlayerForm(request.POST or None)
+    form = PlayerForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         player = form.save(commit=False)
         player.game = Games.objects.get(shortcode=shortcode)
@@ -59,6 +60,7 @@ def create_game(request):
     letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ1234567890'
     # letters = ascii_uppercase + digits
     active_games = Games.objects.filter(isActive=True)
+    player_counter = Counter(Players.objects.values_list("game_id", flat=True))
     shortcode = ''.join(random.sample(letters, 4))
 
     if "shortcode" in request.POST:
@@ -72,4 +74,4 @@ def create_game(request):
         return redirect('create')
 
     return render(request, 'HPHBhelper/index.html',
-                  {'shortcode': shortcode, 'active_games': active_games})
+                  {'shortcode': shortcode, 'active_games': active_games, 'player_counter': player_counter})

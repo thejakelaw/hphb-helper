@@ -27,6 +27,7 @@ class Players(models.Model):
     health = models.IntegerField(default=10)
     coins = models.IntegerField(default=0)
     damage_tokens = models.IntegerField(default=0)
+    player_img = models.ImageField(upload_to="images/", null=True, blank=True)
 
     def __str__(self):
         return self.name
