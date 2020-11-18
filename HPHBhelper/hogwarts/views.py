@@ -1,3 +1,4 @@
+from collections import Counter
 import random
 from collections import Counter
 from string import ascii_uppercase, digits
@@ -59,8 +60,23 @@ def active_game(request, shortcode):
 def create_game(request):
     letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ1234567890'
     # letters = ascii_uppercase + digits
+
     active_games = Games.objects.filter(isActive=True)
-    player_counter = Counter(Players.objects.values_list("game_id", flat=True))
+
+    # SQL groupby == ORM annotate
+    # >>> Players.objects.values_list('game').annotate(Count('game'))
+    # <QuerySet [(1, 3), (2, 2)]>
+
+    # TODO: install Django debug toolbar and see if more queries
+    # are executed if you don't use select_related
+    # players = Players.objects.all()
+    players = Players.objects.select_related('game').all()
+    player_counts = Counter(player.game.id for player in players)
+
+    games_with_player_counts = {}
+    for game in active_games:
+        games_with_player_counts[game.shortcode] = player_counts.get(game.id, 0)
+
     shortcode = ''.join(random.sample(letters, 4))
 
     if "shortcode" in request.POST:
@@ -74,4 +90,5 @@ def create_game(request):
         return redirect('create')
 
     return render(request, 'HPHBhelper/index.html',
-                  {'shortcode': shortcode, 'active_games': active_games, 'player_counter': player_counter})
+                  {'shortcode': shortcode,
+                   'games_with_player_counts': games_with_player_counts.items()})

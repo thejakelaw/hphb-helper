@@ -3,21 +3,18 @@
 
 {% block content %}
 
-  {% if active_games %}
   <h2>Active games</h2>
-<ul>
-      {% for game in active_games %}
-          <li>
-              <a href="/hogwarts/games/{{ game.shortcode }}/">{{ game.shortcode }}</a> |
-              (
-              {{ player_counter.game.id }}
-              )
-          </li>
+    <ul>
+      {% for game_name, player_count in games_with_player_counts %}
+        <li>
+          <a href="/hogwarts/games/{{ game_name }}/">
+            {{ game_name }} ({{player_count}})
+          </a>
+        </li>
+      {% empty %}
+        <li>No games are available.</li>
       {% endfor %}
-      </ul>
-  {% else %}
-      <p>No games are available.</p>
-  {% endif %}
+    </ul>
 
   <h2>New game</h2>
   <form method="post">
